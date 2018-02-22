@@ -14231,6 +14231,13 @@ test_{network} = bottleneck_features['test']</code></pre>
 <p><strong>Answer:</strong></p>
 <p>The dimension of the input for each image is (1,1,2048), so it is equivalent to a vector with length 2048. After testing with the simplest model with 1 input layer and 1 output layer, this simplest model achieves 99% accuracy on training data but around 80% on validation data, so even the simplest model overfits the training data.
 As a result, a dropout layer which randomly drops 80% of the input nodes is added to overcome the overfitting problem. After the dropout layer is added, the model is able to achieve 82% accuracy.</p>
+<p>The result is significantly better than building the CNN from scratch. The advantages of the transfer learning approach are:</p>
+<ol>
+<li><p>It has more data to train the convolution layers, so that convolution layers can produce better features for the final fully connected layers to do classification. ImageNet has around 14,000,000 images while we only have around 8000 images. We cannot use many convolution layers due to overfitting problem in the previous approach. However, since the ImageNet images are similar to ours, the features learned in ImageNet are likely to be reusable in our problem. With transfer learning, we are doing something like training the convolution layers with 14,000,000 images instead of 8000.</p>
+</li>
+<li><p>It takes much less time for training the model. Since we only have to train the last fully connected model, the back propagation takes much less time. Furthermore, because there are less parameters to learn, the network stablizes much faster. The previous approach took 200 epoches for reach a stable validation score, while the current approach only takes around 20 epoches.</p>
+</li>
+</ol>
 
 </div>
 </div>
